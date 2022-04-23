@@ -1,0 +1,11 @@
+Utils/FileSystemPrinter
+	Se ha eliminado el constructor y atributo: FileManager fileManager;
+
+PRINCIPIO SEGREGACIÓN DE INTERFACES
+	La interfaz FileSystem es demasiado grande y además, implementa métodos que 
+	nunca se llegan a utilizar originalmente, como los métodos de "setPosition"
+	y read.
+
+	Se ha creado la interfaz "DirectorySystem", encargada de añadir ficheros
+	y se ha reducido la carga de la interfaz FileSystemItem, encargada de abrir, escribir
+	y cerrar los ficheros
