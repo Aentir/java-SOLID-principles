@@ -1,0 +1,32 @@
+package com.kreitek.files;
+
+public  class FileImp extends FileSystemItemBase implements FileSystem {
+
+    private int size = 0;
+    private boolean isOpen = false;
+    private int position = 0;
+
+    public FileImp(String name) {
+        super(name);
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    @Override
+    public void open() {
+        isOpen = true;
+    }
+
+    @Override
+    public void write(byte[] buffer) {
+        size += buffer.length;
+        position += buffer.length;
+    }
+
+    @Override
+    public void close() {
+        isOpen = false;
+    }
+}

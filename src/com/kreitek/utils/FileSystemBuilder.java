@@ -1,47 +1,48 @@
 package com.kreitek.utils;
 
-import com.kreitek.files.Directory;
-import com.kreitek.files.File;
-import com.kreitek.files.FileSystemItem;
+import com.kreitek.files.DirectoryImp;
+import com.kreitek.files.FileImp;
+import com.kreitek.files.FileSystemItemBase;
 
 public class FileSystemBuilder {
 
-    private final FileSystemItem root;
-    private FileSystemItem currentDirectory;
+    private final DirectoryImp root;
+    private DirectoryImp currentDirectoryImp;
 
     public static FileSystemBuilder getBuilder() {
         return new FileSystemBuilder();
     }
 
     public FileSystemBuilder() {
-        root = new Directory(null, "");
-        currentDirectory = root;
+        root = new DirectoryImp("");
+        currentDirectoryImp = root;
     }
 
     public FileSystemBuilder addFile(String name, int size) {
-        FileSystemItem file = new File(currentDirectory, name);
-        file.open();
-        file.write(new byte[size]);
-        file.close();
-        currentDirectory.addFile(file);
+        FileImp fileImp = new FileImp(name);
+        fileImp.open();
+        fileImp.write(new byte[size]);
+        fileImp.close();
+        currentDirectoryImp.addFile(fileImp);
         return this;
     }
 
     public FileSystemBuilder addDirectory(String name) {
-        FileSystemItem directory = new Directory(currentDirectory, name);
-        currentDirectory.addFile(directory);
-        currentDirectory = directory;
+        DirectoryImp directoryImp = new DirectoryImp(name);
+        currentDirectoryImp.addFile(directoryImp);
+        currentDirectoryImp = directoryImp;
         return this;
     }
 
     public FileSystemBuilder upOneDirectory() {
-        if (currentDirectory.getParent() != null) {
-            currentDirectory = currentDirectory.getParent();
+        if (currentDirectoryImp.getParent() != null) {
+            currentDirectoryImp = (DirectoryImp) currentDirectoryImp.getParent();
         }
+
         return this;
     }
 
-    public FileSystemItem build() {
+    public FileSystemItemBase build() {
         return root;
     }
 }

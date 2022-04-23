@@ -1,0 +1,55 @@
+Detectados 2 principios
+	Segregación de interfaces
+	Principio de responsabilidad única
+
+Segregación de interfaces
+	Se ha creado la interfaz DirectorySystem
+		Declara el método addFile para añadir ficheros
+	Se ha reducido la carga de FileSystemItem y se ha modificado su nombe a FileSystem, ya que ahora es File quien la implementa
+		Declara los métodos de open, wirte y close
+		Elimina el resto de métodos ya que muchos de ellos se declaraban e implementaban en otras clases
+		pero no se hacía ningún uso de ellos
+
+Principio de responsabilidad única
+	Clase Directory
+	-Eliminado atributo innecesario, determinaba mensaje de error y esto no corresponde a la clase Directory
+	-Modificado constructor
+		-Solo recibe por parámetro un nombre de tipo String e inicializa una variable que almacena Listas
+	-Modificado método addFile(), recibe parámetro tipo FileSystemItemBase, que es quien implementa la interfaz
+	para este método
+	-Modificado método getSize()
+		-Como se solicitaba, ya no lanza mensaje de error, ahora calcula y devuelve el tamaño del fichero
+	-Eliminados métodos:
+		-open(), setPosition(), read(), write(), close()
+		-No corresponden a esta clase y algunos de ellos no se utilizaban
+
+	Clase File
+	-Modificado parametros de constructor
+	-Eliminado métodos que no se utilizaban para nada en el código 
+		-getExtension(), addFile(), removeFile(), setPosition(), read(), convertMp3ToWav()
+
+	Clase FileSystemItemBase
+	-Eliminados métodos por uso nulo:
+		-setName(), getExtension(), listFiles(), open(), setPosition(), read(), wrtie(), close()
+	-Simplificación del método setParent()
+
+	Clase FileManager
+	-Modificación primer método calculateSize() simplificado
+	-Eliminado segundo método calculateSize() -> no se utilizaba
+
+	Clase FileSystemBuilder
+	-Modificación tipo atributos debido a todos los cambios anteriores
+	-Modificación de todos los métodos debido a los cambios anteriores
+
+	Clase FileSystemPrinter
+	-Modificación tipo recibido en el parametro del metodo print(), debido a todos los cambios previos
+
+	Clase Main
+	-Modificación de tipo recibido en los parametros de los métodos printResult() y buildTestFileSystem()
+
+Implementación PENDIENTE:
+	-Sería conveniente tratar de implementar un patrón Factory, el cual hiciese una única instancia en la clase Main, llamándo a los métodos
+	de impresión pertinentes, de esa manera, Main solo tendría una única llamada a un método y estos, no serían accesibles desde esta clase
+	sino, a través de la factoría
+
+*Nota: Se ha añadido el sufijo "Imp" a las clases que implementan interfaces para una identificación más sencilla
